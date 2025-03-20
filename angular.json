@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ssr-test": {
+    "corp-frame": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ssr-test",
+            "outputPath": "dist/corp-frame",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ssr-test:build:production"
+              "buildTarget": "corp-frame:build:production"
             },
             "development": {
-              "buildTarget": "ssr-test:build:development"
+              "buildTarget": "corp-frame:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ssr-test:build"
+            "buildTarget": "corp-frame:build"
           }
         },
         "test": {
