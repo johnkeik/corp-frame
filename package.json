@@ -1,5 +1,5 @@
 {
-  "name": "corp-frame",
+  "name": "corporate-site-service-client",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:corp-frame": "node dist/corp-frame/server/server.mjs"
+    "serve:ssr:corporate-site-service-client": "node dist/corporate-site-service-client/server/server.mjs"
   },
   "private": true,
   "dependencies": {
