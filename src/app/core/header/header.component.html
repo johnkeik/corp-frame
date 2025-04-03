@@ -1,0 +1,14 @@
+<div class="header-container">
+    <div class="left-container">
+        <img src="../../../assets/demo/logo.png" class="logo" alt="Logo" >
+        <div class="routes">
+            @for(route of merchantConfig()?.routes; track route.path) {
+                <button class="button-undecorated header-button" [ariaLabel]="route.displayName" [routerLink]="['/', merchantConfig()?.merchantId, route.path]">
+                    <span class="label">{{route.displayName}}</span>
+                </button>
+                
+            }
+        </div>
+    </div>
+    <button class="button-accent order-now">Order Now</button>
+</div>

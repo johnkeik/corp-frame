@@ -1,0 +1,39 @@
+@import "../../../design/mixins/media-queries";
+
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 52px;
+
+  .left-container {
+    display: flex;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .routes {
+    display: flex;
+    gap: 72px;
+  }
+
+  .logo {
+    height: 68px;
+  }
+
+  .header-button {
+    position: relative;
+    border-radius: 0.875rem;
+    text-transform: uppercase;
+    color: var(--text-unselected);
+    text-wrap: nowrap;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+  }
+}

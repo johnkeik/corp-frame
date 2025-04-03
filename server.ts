@@ -5,8 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
 import { FileCacheService } from './server/services/file-cache.service';
-import { MerchantConfigService } from './server/services/merchant-config.service';
-import { MetaTag } from './server/interfaces/merchant-config.interface';
+import { TransferState, makeStateKey } from '@angular/core';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -15,13 +14,13 @@ export function app(): express.Express {
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
+
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
   const cacheService = new FileCacheService();
-  const merchantConfigService = new MerchantConfigService();
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
@@ -35,14 +34,14 @@ export function app(): express.Express {
     const { protocol, originalUrl, baseUrl, headers } = req;
     
     // Extract merchantId directly from the URL path
+    console.log('url',originalUrl);
     const merchantId = originalUrl.split('/')[1] || 'default';
     console.log('merchantId:', merchantId);
+    console.log('url after',originalUrl);
 
     try {
-      // Get merchant configuration
-      const merchantConfig = await merchantConfigService.getConfig(merchantId);
-      console.log('config: ', merchantConfig);
-      const cacheKey = `${merchantId}_${originalUrl}`;
+      const cacheKey = `${merchantId}_${originalUrl.split('/').join('_')}`;
+      console.log('cachekey',cacheKey);
 
       // Check cache first
       const cached = await cacheService.get(merchantId, cacheKey);
@@ -50,6 +49,7 @@ export function app(): express.Express {
         console.log(`Cache hit for merchant ${merchantId}: ${originalUrl}`);
         return res.send(cached);
       }
+
 
       // If not in cache, render the page with merchant-specific meta tags
       const html = await commonEngine.render({
@@ -59,17 +59,13 @@ export function app(): express.Express {
         publicPath: browserDistFolder,
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
-          { provide: 'MERCHANT_CONFIG', useValue: merchantConfig }
         ],
       });
 
-      // Inject meta tags into the rendered HTML
-      const htmlWithMeta = injectMetaTags(html, merchantConfig.metaTags);
-
       // Cache the rendered HTML
-      await cacheService.set(merchantId, cacheKey, htmlWithMeta);
+      await cacheService.set(merchantId, cacheKey, html);
       
-      return res.send(htmlWithMeta);
+      return res.send(html);
     } catch (error) {
       console.error('Rendering error:', error);
       return next(error);
@@ -79,21 +75,7 @@ export function app(): express.Express {
   return server;
 }
 
-function injectMetaTags(html: string, metaTags: MetaTag[]): string {
-  const metaTagsHtml = metaTags
-    .map(tag => {
-      if (tag.name) {
-        return `<meta name="${tag.name}" content="${tag.content}">`;
-      }
-      if (tag.property) {
-        return `<meta property="${tag.property}" content="${tag.content}">`;
-      }
-      return '';
-    })
-    .join('\n');
 
-  return html.replace('</head>', `${metaTagsHtml}\n</head>`);
-}
 
 function run(): void {
   const port = process.env['PORT'] || 4000;

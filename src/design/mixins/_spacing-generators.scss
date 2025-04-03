@@ -1,0 +1,76 @@
+// Spacing generator mixin
+@mixin spacing($className, $styleName, $unit: 'rem') {
+  $value-array: (0.25, 0.5, 1, 1.5, 2);
+  $i: 1;
+
+  @if $unit == 'px' {
+    $value-array: (5, 10, 15, 20, 25, 30, 35, 40, 45, 50);
+    
+  }
+  @each $value in $value-array {
+    $suffix: $value;
+    @if $unit == 'rem' {
+      $suffix: $i;
+    }
+    #{$className}#{$suffix} {
+      #{$styleName}: #{$value}#{$unit};
+    }
+    $i: $i + 1;
+  }
+  
+  // zero spacings
+  @if $unit == 'rem' {
+    #{$className}0 {
+      #{$styleName}: 0;
+    }
+  }
+}
+
+// ================ SPACING CLASSES =====================
+// rem units
+@include spacing('.m-', 'margin');
+@include spacing('.ml-', 'margin-left');
+@include spacing('.mr-', 'margin-right');
+@include spacing('.mt-', 'margin-top');
+@include spacing('.mb-', 'margin-bottom');
+
+@include spacing('.p-', 'padding');
+@include spacing('.pl-', 'padding-left');
+@include spacing('.pr-', 'padding-right');
+@include spacing('.pt-', 'padding-top');
+@include spacing('.pb-', 'padding-bottom');
+
+// pixel units
+@include spacing('.m-px-', 'margin', 'px');
+@include spacing('.ml-px-', 'margin-left', 'px');
+@include spacing('.mr-px-', 'margin-right', 'px');
+@include spacing('.mt-px-', 'margin-top', 'px');
+@include spacing('.mb-px-', 'margin-bottom', 'px');
+
+@include spacing('.p-px-', 'padding', 'px');
+@include spacing('.pl-px-', 'padding-left', 'px');
+@include spacing('.pr-px-', 'padding-right', 'px');
+@include spacing('.pt-px-', 'padding-top', 'px');
+@include spacing('.pb-px-', 'padding-bottom', 'px');
+
+
+// Auto margins: 
+.mt-auto {
+  margin-top: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.mb-auto {
+  margin-bottom: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
+}  
+
+.m-auto {
+  margin: auto;
+}

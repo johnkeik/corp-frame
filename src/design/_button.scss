@@ -1,0 +1,126 @@
+// Button
+// ––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.button,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  border: none;
+  cursor: pointer;
+
+  &.button-accent {
+    background-color: var(--primary);
+    color: var(--primary-inverse);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1rem;
+    height: 3.25rem;
+    padding: 1rem 3rem;
+    border-radius: 2.0375rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    text-transform: capitalize;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+
+    &:active {
+      box-shadow: 0.125rem 0.3125rem 0.25rem 0 rgba(0, 0, 0, 0.25) inset;
+    }
+  }
+
+  
+  &.loading {
+    animation: pulse 500ms infinite;
+  }
+
+  &.button-soft {
+    background-color: var(--selection-bg-color);
+    color: var(--selection-inverse-color);
+
+    &:active {
+      box-shadow: 0.125rem 0.3125rem 0.25rem 0 #F6CCBE inset;
+    }
+  }
+
+  &.button-clear {
+    background-color: transparent;
+    color: var(--secondary-text-color);
+
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  &.button-reverted {
+    color: var(--action-bg-color);
+    background-color: var(--action-inverse-bg-color);
+
+    &:active {
+      box-shadow: 0.125rem 0.3125rem 0.25rem 0 #F5F5F5 inset;
+    }
+  }
+
+  &.button-white {
+    color: var(--primary);
+    background-color: var(--white);
+
+    &:active {
+      box-shadow: 0.125rem 0.3125rem 0.25rem 0 rgba(0, 0, 0, 0.25) inset;
+    }
+  }
+
+  &.button-white-outlined {
+    color: var(--white);
+    background-color: transparent;
+    border: 0.125rem solid var(--white);
+    
+    &:active {
+      box-shadow: 0.125rem 0.125rem 0.25rem 0 #F5F5F5 inset;
+    }
+  }
+
+  &.button-undecorated {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    outline: inherit;
+    border-radius: 1.0625rem;
+
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  &.full-width {
+    width: 100%;
+  } 
+
+  &:focus-visible {
+    outline-style: solid;
+    outline-color: var(--primary-light);
+    outline-offset: 0.125em; // 2px
+    outline-width: 0.125em; // 2px
+  }
+  
+  button:active {
+    outline: none;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

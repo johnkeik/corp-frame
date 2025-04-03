@@ -1,0 +1,12 @@
+// Link
+// ––––––––––––––––––––––––––––––––––––––––––––––––––
+
+a {
+  color: var(--action-bg-color);
+  text-decoration: none;
+
+  &:focus,
+  &:hover {
+    color: var(--primary-text-color);
+  }
+}

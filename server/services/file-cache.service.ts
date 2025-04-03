@@ -21,7 +21,7 @@ export class FileCacheService {
 
   private getCacheFilePath(merchantId: string, path: string): string {
     const hash = crypto.createHash('md5').update(path).digest('hex');
-    return join(this.cacheDir, `${merchantId}_${hash}.html`);
+    return join(this.cacheDir, `${merchantId}_${path}.html`);
   }
 
   async get(merchantId: string, path: string): Promise<string | null> {

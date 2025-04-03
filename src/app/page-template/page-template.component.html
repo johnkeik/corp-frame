@@ -1,0 +1,3 @@
+@for (componnets of pageConfig?.components; track $index) {
+    <ng-container *ngComponentOutlet="getComponentForConfig(componentConfig)"></ng-container>
+}
