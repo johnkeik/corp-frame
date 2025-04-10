@@ -1,26 +1,29 @@
-import { Component, ComponentFactoryResolver, inject, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, inject, Injector, NO_ERRORS_SCHEMA, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MerchantConfigService } from '../core/services/merchant-config.service';
-import {MerchantComponentConfig, MerchantComponentType, MerchantRouteConfig} from '../core/models/merchant-config.model';
+import {MerchantComponentConfig, MerchantRouteConfig} from '../core/models/merchant-config.model';
 import { HeroStandardComponent } from '../shared/hero-standard/hero-standard.component';
 import { HeroSpecialComponent } from '../shared/hero-special/hero-special.component';
+import { componentMap, ComponentsList } from '../shared/components-list';
+import { CommonModule } from '@angular/common';
+import { ImageCarouselComponent } from '../shared/image-carousel/image-carousel.component';
+import { TestimonialsComponent } from '../shared/testimonials/testimonials.component';
+
 
 @Component({
   selector: 'app-page-template',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, ComponentsList],
   templateUrl: './page-template.component.html',
-  styleUrl: './page-template.component.scss'
+  styleUrl: './page-template.component.scss',
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class PageTemplateComponent implements OnInit {
   merchantConfig = inject(MerchantConfigService).merchantConfig;
   pageConfig: MerchantRouteConfig | undefined;
+  private injector = inject(Injector);
   
-  private componentMap: { [key in MerchantComponentType]?: Type<any> } = {
-    [MerchantComponentType.HeroStandard]: HeroStandardComponent, 
-    [MerchantComponentType.HeroSpecial]: HeroSpecialComponent 
-  };
 
   @ViewChild('pageTemplateContainerRef', { read: ViewContainerRef }) containerRef?: ViewContainerRef;
 
@@ -43,11 +46,23 @@ export class PageTemplateComponent implements OnInit {
     })
 
   }
-
+  
   getComponentForConfig(componentConfig: MerchantComponentConfig): Type<any> {
-    console.log(componentConfig.selector);
-    return HeroSpecialComponent;
-    // return this.componentMap[componentConfig.selector]!; 
+    const component = componentMap[componentConfig.selector];
+    if (!component) {
+      console.warn(`Component not found for selector: ${componentConfig.selector}`);
+      return HeroStandardComponent; // fallback to standard component
+    }
+    return component;
+  }
 
+  // Create a custom injector for each component with its specific data
+  createInjectorForComponent(component: MerchantComponentConfig): Injector {
+    return Injector.create({
+      providers: [
+        { provide: 'componentConfig', useValue: component },
+      ],
+      parent: this.injector
+    });
   }
 }

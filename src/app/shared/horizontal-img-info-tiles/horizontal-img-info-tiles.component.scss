@@ -1,0 +1,30 @@
+.horizontal-img-info-tile-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 100px;
+
+  img {
+    width: 50%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 25px;
+    max-width: 700px;
+  }
+
+  .info-wrapper {
+    border-radius: 25px;
+    max-width: 550px;
+    width: 40%;
+    margin-left: -20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    gap: 24px;
+    aspect-ratio: 1/1;
+    background: var(--Dark-Primary, #C2390F);  }
+}

@@ -1,0 +1,35 @@
+<div class="image-carousel-wrapper">
+  <span class="title">Check our store</span>
+  <div class="carousel-container">
+    <button class="nav-button left" (click)="scrolLeft()">&lt;</button>
+    <div class="image-carousel" #carousel>
+      @for (image of images; track $index) {
+      <img
+        [src]="image"
+        class="image"
+        [ngClass]="{
+            'center': $index === currentIndex,
+            'prev': ($index === currentIndex - 1) || (currentIndex === 0 && $index === images.length - 1),
+            'next': ($index === currentIndex + 1) || (currentIndex === images.length - 1 && $index === 0),
+            'prev-prev': ($index === currentIndex - 2) || (currentIndex === 0 && $index === images.length - 2) || (currentIndex === 1 && $index === images.length - 1),
+            'next-next': ($index === currentIndex + 2) || (currentIndex === images.length - 1 && $index === 1) || (currentIndex === images.length - 2 && $index === 0),
+            'other-left': !($index === currentIndex || 
+                          $index === ((currentIndex - 1 + images.length) % images.length) || 
+                          $index === ((currentIndex - 2 + images.length) % images.length) ||
+                          $index === ((currentIndex + 1) % images.length) || 
+                          $index === ((currentIndex + 2) % images.length)) && 
+                          $index < currentIndex,
+            'other-right': !($index === currentIndex || 
+                           $index === ((currentIndex - 1 + images.length) % images.length) || 
+                           $index === ((currentIndex - 2 + images.length) % images.length) ||
+                           $index === ((currentIndex + 1) % images.length) || 
+                           $index === ((currentIndex + 2) % images.length)) && 
+                           $index > currentIndex
+        }"
+        alt="Image"
+      />
+      }
+    </div>
+    <button class="nav-button right" (click)="scrolRight()">&gt;</button>
+  </div>
+</div>

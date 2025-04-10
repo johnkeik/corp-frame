@@ -10,7 +10,8 @@ import { TransferState, makeStateKey } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { MerchantComponentType, MerchantConfig } from '../models/merchant-config.model';
+import { MerchantConfig } from '../models/merchant-config.model';
+import { MerchantComponentType } from '../../shared/components-list';
 
 const MERCHANT_CONFIG_KEY = makeStateKey<MerchantConfig>('merchantConfig');
 
@@ -33,6 +34,12 @@ export class MerchantConfigService {
             components:[
               {
                 selector: MerchantComponentType.HeroStandard,
+              },
+              {
+                selector: MerchantComponentType.HeroSpecial,
+              },
+              {
+                selector: MerchantComponentType.ImageCarousel,
               }
             ]
           },
@@ -42,7 +49,14 @@ export class MerchantConfigService {
             title: 'About Title',
             components:[
               {
-                selector: MerchantComponentType.HeroSpecial,
+                selector: MerchantComponentType.HorizontalImgInfoTiles,
+                data: {
+                  title: 'Delicious Pizza',
+                  description: "Our pizzas are made daily with fresh dough and sauce. They are topped  with 100% whole milk mozzarella cheese and other top-quality, fresh  ingredients. We are widely known for our Porto-Fino Special and House Special."
+                }
+              },
+              {
+                selector: MerchantComponentType.HorizontalImgInfoTiles,
               }
             ]
           },

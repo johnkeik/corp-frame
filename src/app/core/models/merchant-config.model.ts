@@ -1,4 +1,5 @@
 import { MetaDefinition } from "@angular/platform-browser";
+import { MerchantComponentType } from "../../shared/components-list";
 
 export interface MerchantConfig {
     merchantId: string;
@@ -16,11 +17,7 @@ export interface MerchantRouteConfig {
 
 export interface MerchantComponentConfig {
     selector: MerchantComponentType;
+    data?: any;
     children?: MerchantComponentConfig[];
 }
 
-
-export enum MerchantComponentType {
-    HeroStandard = 'hero-standard',
-    HeroSpecial = 'hero-special',
-}

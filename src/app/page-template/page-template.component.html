@@ -1,3 +1,4 @@
-@for (componnets of pageConfig?.components; track $index) {
-    <ng-container *ngComponentOutlet="getComponentForConfig(componentConfig)"></ng-container>
+@for (component of pageConfig?.components; track $index) {
+    <ng-container *ngComponentOutlet="getComponentForConfig(component); 
+                                       injector: createInjectorForComponent(component)"></ng-container>
 }
