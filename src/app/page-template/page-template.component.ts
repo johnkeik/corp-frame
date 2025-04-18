@@ -1,4 +1,4 @@
-import { Component, inject, Injector, NO_ERRORS_SCHEMA, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, Injector, NO_ERRORS_SCHEMA, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MerchantConfigService } from '../core/services/merchant-config.service';
@@ -19,33 +19,51 @@ import { TestimonialsComponent } from '../shared/testimonials/testimonials.compo
   styleUrl: './page-template.component.scss',
   schemas: [NO_ERRORS_SCHEMA]
 })
-export class PageTemplateComponent implements OnInit {
+export class PageTemplateComponent implements AfterViewInit {
+  private injector = inject(Injector);
+  private titleService = inject(Title);
+  private route = inject(ActivatedRoute);
   merchantConfig = inject(MerchantConfigService).merchantConfig;
   pageConfig: MerchantRouteConfig | undefined;
-  private injector = inject(Injector);
-  
 
-  @ViewChild('pageTemplateContainerRef', { read: ViewContainerRef }) containerRef?: ViewContainerRef;
+  @ViewChild('componentsContainer', { read: ViewContainerRef, static: false }) 
+  componentsContainer?: ViewContainerRef;
 
-  constructor(
-    private route: ActivatedRoute,
-    private titleService: Title,
-  ) { 
-
-  }
-
-  ngOnInit(): void {
+  ngAfterViewInit() {
     this.route.paramMap.subscribe((params) => {
       const page = params.get('page');
-      console.log('herhehrheeh')
       this.pageConfig = this.merchantConfig()?.routes.find((route) => route.path === page);
       if(!this.pageConfig){
         console.log('Page not found');
+      }
+      if (this.pageConfig?.components && this.componentsContainer) {
+        this.loadComponents();
       }
       this.titleService.setTitle(this.pageConfig?.title ?? 'Page not found');
     })
 
   }
+  
+  loadComponents() {
+    if (!this.componentsContainer || !this.pageConfig?.components) return;
+    
+    this.componentsContainer.clear();
+    
+    this.pageConfig.components.forEach(component => {
+      const componentType = this.getComponentForConfig(component);
+      const injector = this.createInjectorForComponent(component);
+
+      const componentRef = this.componentsContainer!.createComponent(componentType, { injector});
+      
+      // Pass configuration to component
+      if (componentRef.instance.hasOwnProperty('config')) {
+        componentRef.instance.config = component;
+      }
+      
+      componentRef.changeDetectorRef.detectChanges();
+    });
+  }
+  
   
   getComponentForConfig(componentConfig: MerchantComponentConfig): Type<any> {
     const component = componentMap[componentConfig.selector];
@@ -60,7 +78,7 @@ export class PageTemplateComponent implements OnInit {
   createInjectorForComponent(component: MerchantComponentConfig): Injector {
     return Injector.create({
       providers: [
-        { provide: 'componentConfig', useValue: component },
+        { provide: 'componentConfig', useValue: component }
       ],
       parent: this.injector
     });

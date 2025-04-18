@@ -1,0 +1,14 @@
+{
+  "primary": "#007bff",
+  "secondary": "#6c757d",
+  "primary-background": "#f8f9fa",
+  "primary-text": "#212529",
+  "secondary-background": "#343a40",
+  "secondary-text": "#ffffff",
+  "components-schemas": {
+    "a-template": {},
+    "hero-special": {},
+    "hero-standard": {},
+    "horizontal-img-info-tiles": {}
+  }
+}

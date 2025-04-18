@@ -1,16 +1,16 @@
 import { Component, Inject, input, OnInit, Optional } from '@angular/core';
 import { MerchantComponentConfig } from '../../core/models/merchant-config.model';
-import { HORIZONTAL_IMG_INFO_TILES_SCHEMA } from './customization.config';
+import { A_TEMPLATE_SCHEMA } from './customization.config';
 
 @Component({
   selector: 'app-horizontal-img-info-tiles',
   standalone: true,
   imports: [],
-  templateUrl: './horizontal-img-info-tiles.component.html',
-  styleUrl: './horizontal-img-info-tiles.component.scss'
+  templateUrl: './a-template.component.html',
+  styleUrl: './a-template.component.scss'
 })
-export class HorizontalImgInfoTilesComponent implements OnInit {
-  data?: HORIZONTAL_IMG_INFO_TILES_SCHEMA;
+export class ATemplateComponent implements OnInit {
+  data?: A_TEMPLATE_SCHEMA;
   constructor(
     @Optional() @Inject('componentConfig') private componentConfig: MerchantComponentConfig,
   ) {}
